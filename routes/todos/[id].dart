@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:api/service/Todo.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:uuid/validation.dart';
 
-Future<Response> onRequest(RequestContext context, String id) async {
-  final service = TodoService();
+import 'index.dart';
 
+Future<Response> onRequest(RequestContext context, String id) async {
   final request = context.request;
 
   if (!UuidValidation.isValidUUID(fromString: id)) {
