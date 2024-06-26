@@ -18,22 +18,16 @@ class DatabaseConfig {
   String? _dbname;
 
   Future<Connection> connect() async {
-    return Connection.open(
+    final conn = await Connection.open(
       Endpoint(
         host: _host!,
         database: _dbname!,
         username: _user,
         password: _password,
       ),
+      settings: const ConnectionSettings(sslMode: SslMode.disable),
     );
-  }
 
-  Future<void> initilize(Connection conn) async {
-    await conn.execute('CREATE TABLE IF NOT EXISTS todos ('
-        '  id TEXT NOT NULL, '
-        '  name TEXT NOT NULL, '
-        '  isCompleted BOOLEAN NOT NULL, '
-        '  createdAt DATETIME NOT NULL  '
-        ')');
+    return conn;
   }
 }
