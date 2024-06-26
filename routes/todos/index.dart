@@ -24,7 +24,10 @@ Future<Response> onRequest(RequestContext context) async {
 
       if (name.isNotEmpty) {
         final createdTodo = await service.create(name);
-        return Response.json(body: createdTodo);
+        return Response.json(
+          statusCode: HttpStatus.created,
+          body: createdTodo,
+        );
       }
     }
 

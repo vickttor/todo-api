@@ -8,8 +8,9 @@ environment:
 
 dependencies:
   dart_frog: ^1.0.0
-  dotenv: ^4.2.0
   json_annotation: ^4.9.0
+  postgres: ^3.2.1
+  shelf_cors_headers: ^0.1.5
   uuid: ^4.4.0
 
 dev_dependencies:

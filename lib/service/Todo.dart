@@ -22,7 +22,7 @@ class TodoService implements Exception {
     return Future.value(mockedList);
   }
 
-  Future<String> update({
+  Future<Todo> update({
     required String id,
     required String name,
     required bool isCompleted,
@@ -48,7 +48,11 @@ class TodoService implements Exception {
       return task;
     }).toList();
 
-    return Future.value('Tarefa $id atualizada');
+    final updatedTodo = mockedList.where((item) {
+      return item.id == id;
+    });
+
+    return Future.value(updatedTodo.first);
   }
 
   Future<String> delete(String id) {

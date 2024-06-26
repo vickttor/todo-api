@@ -44,14 +44,14 @@ Future<Response> onRequest(RequestContext context, String id) async {
     }
 
     try {
-      final response = await service.update(
+      final updatedTodo = await service.update(
         id: id,
         name: name as String,
         isCompleted: isCompleted as bool,
       );
 
       return Response.json(
-        body: {'message': response},
+        body: updatedTodo,
       );
     } on FormatException catch (e) {
       return Response.json(
