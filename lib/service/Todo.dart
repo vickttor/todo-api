@@ -1,35 +1,40 @@
 import 'dart:async';
 
 import 'package:api/models/Todo.dart';
+import 'package:api/repositories/Todo.dart';
 import 'package:uuid/v4.dart';
 
 List<Todo> mockedList = [];
 
 class TodoService implements Exception {
-  Future<Todo> create(String name) {
+  TodoService() {
+    repository = TodoRepository();
+  }
+
+  late TodoRepository repository;
+
+  Future<Todo> create(String name) async {
     final newTodo = Todo(
       id: const UuidV4().generate(),
       name: name,
       isCompleted: false,
     );
 
-    mockedList.add(newTodo);
+    await repository.insertTodo(newTodo);
 
-    return Future.value(newTodo);
+    return newTodo;
   }
 
   Future<List<Todo>> findAll() {
-    return Future.value(mockedList);
+    return repository.findAllTodos();
   }
 
-  Future<String> update({
+  Future<Todo> update({
     required String id,
     required String name,
     required bool isCompleted,
-  }) {
-    final foundTask = mockedList.where((item) {
-      return item.id == id;
-    });
+  }) async {
+    final foundTask = await repository.findById(id);
 
     if (foundTask.isEmpty) {
       throw const FormatException(
@@ -37,24 +42,13 @@ class TodoService implements Exception {
       );
     }
 
-    mockedList = mockedList.map((task) {
-      if (task.id == id) {
-        task
-          ..name = name
-          ..isCompleted = isCompleted;
+    final updatedTodo = await repository.updateTodo(id, name, isCompleted);
 
-        return task;
-      }
-      return task;
-    }).toList();
-
-    return Future.value('Tarefa $id atualizada');
+    return updatedTodo;
   }
 
-  Future<String> delete(String id) {
-    final foundTask = mockedList.where((item) {
-      return item.id == id;
-    });
+  Future<String> delete(String id) async {
+    final foundTask = await repository.findById(id);
 
     if (foundTask.isEmpty) {
       throw const FormatException(
@@ -62,9 +56,7 @@ class TodoService implements Exception {
       );
     }
 
-    mockedList = mockedList.where((task) {
-      return task.id != id;
-    }).toList();
+    await repository.deleteTodo(id);
 
     return Future.value('Tarefa $id deletada');
   }

@@ -14,4 +14,4 @@ build/
 
 # Test related files
 coverage/
-build/
+*.env
