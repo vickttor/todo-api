@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:api/service/Todo.dart';
 import 'package:dart_frog/dart_frog.dart';
 
-Future<Response> onRequest(RequestContext context) async {
-  final service = TodoService();
+final service = TodoService();
 
+Future<Response> onRequest(RequestContext context) async {
   final request = context.request;
 
   if (request.method == HttpMethod.get) {
@@ -24,7 +24,10 @@ Future<Response> onRequest(RequestContext context) async {
 
       if (name.isNotEmpty) {
         final createdTodo = await service.create(name);
-        return Response.json(body: createdTodo);
+        return Response.json(
+          statusCode: HttpStatus.created,
+          body: createdTodo,
+        );
       }
     }
 

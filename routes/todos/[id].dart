@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:api/service/Todo.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:uuid/validation.dart';
 
-Future<Response> onRequest(RequestContext context, String id) async {
-  final service = TodoService();
+import 'index.dart';
 
+Future<Response> onRequest(RequestContext context, String id) async {
   final request = context.request;
 
   if (!UuidValidation.isValidUUID(fromString: id)) {
@@ -45,14 +44,14 @@ Future<Response> onRequest(RequestContext context, String id) async {
     }
 
     try {
-      final response = await service.update(
+      final updatedTodo = await service.update(
         id: id,
         name: name as String,
         isCompleted: isCompleted as bool,
       );
 
       return Response.json(
-        body: {'message': response},
+        body: updatedTodo,
       );
     } on FormatException catch (e) {
       return Response.json(
