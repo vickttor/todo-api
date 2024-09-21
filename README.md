@@ -8,7 +8,7 @@ A simple RESTfull API built using Dart frog framework for a reactjs client appli
 
 ## Status
 
-🏗️ Developing
+🏗️ Finished
 
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_link]: https://opensource.org/licenses/MIT
